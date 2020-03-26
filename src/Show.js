@@ -112,6 +112,22 @@ class App extends Component {
     console.log(reportList);
   }
 
+  myReports = async () => {
+
+    const size = await this.state.contract.methods.getNoOfReports().call({ from: this.state.accounts[0] });
+
+    const reportList = await Promise.all(
+      Array(parseInt(size)).fill().map(async (Element, index) => {
+        let rec = await this.state.contract.methods.reporterToReports(this.state.accounts[0], index).call();
+        return rec;
+      }));
+
+    this.props.history.push({
+      pathname: '/reports',
+      state: { reportList: reportList }
+    });
+  }
+
   render() {
     if (!this.state.web3) {
       return <div>Loading Web3, accounts, and contract...</div>;
@@ -191,6 +207,10 @@ class App extends Component {
           </Form.Group>
           <Button basic color="black" content="Get Report" />
         </Form>
+
+        <hr style={{ marginTop: "1.5em", marginBottom: "1.5em", width: "50px" }} />
+
+        <Button onClick={this.myReports} basic color="black">Your Reports</Button>
 
         <hr style={{ marginTop: "1.5em", marginBottom: "1.5em", width: "50px" }} />
 

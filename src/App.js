@@ -22,11 +22,11 @@ function App() {
         <Route exact path="/reports">
           <ShowSpec />
         </Route>
+        <Route exact path="/:id/new">
+          <RecNew />
+        </Route>
         <Route path="/:id">
           <RepShow />
-        </Route>
-        <Route path="/:id/new">
-          <RecNew />
         </Route>
         <Route exact path="/">
           <Show />
